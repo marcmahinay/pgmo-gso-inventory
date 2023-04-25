@@ -19,7 +19,8 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained();
             $table->string('images')->nullable();
             $table->double('reorder_point')->default(0);
-            $table->double('quantity')->default(0);
+            $table->double('current_quantity')->default(0);
+            $table->decimal('average_cost',10,2,true)->nullable();
             $table->timestamps();
         });
     }
