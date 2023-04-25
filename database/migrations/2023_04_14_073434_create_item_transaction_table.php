@@ -18,7 +18,11 @@ return new class extends Migration
             $table->double('credit');
             $table->double('debit');
             $table->double('quantity');
-            $table->double('balance');
+            $table->double('balance_quantity');
+            $table->decimal('unit_cost',10,2,true);
+            $table->decimal('average_cost',10,2,true);
+            $table->date('expiry_date')->nullable();
+            $table->integer('days_to_consume')->nullable();
             $table->timestamps();
         });
     }
