@@ -20,7 +20,7 @@ Documentation :
 Videos :
 
 
-## Laravel Sponsors
+## Sponsors
 
 PGMO
 
