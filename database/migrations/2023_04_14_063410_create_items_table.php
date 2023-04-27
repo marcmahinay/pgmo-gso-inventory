@@ -14,13 +14,15 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
+            $table->string('stock_no',)->unique()->nullable();
             $table->string('description',500);
-            $table->string('uom');
+            $table->foreignId('uom_id')->constrained();
             $table->foreignId('category_id')->constrained();
             $table->string('images')->nullable();
             $table->double('reorder_point')->default(0);
             $table->double('current_quantity')->default(0);
-            $table->decimal('average_cost',10,2,true)->nullable();
+            $table->decimal('average_unit_cost',10,2,true)->nullable();
+            $table->decimal('current_total_cost',10,2,true)->nullable();
             $table->timestamps();
         });
     }

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->string('reference');
-            $table->string('notes');
-            $table->string('transaction_type');
+            $table->string('notes',500);
+            $table->foreignId('transaction_type_id')->constrained();
             $table->morphs('transactable');
             $table->timestamp('transaction_date');
             $table->foreignId('user_id')->constrained('users')->onDelete('no action')->onUpdate('cascade');

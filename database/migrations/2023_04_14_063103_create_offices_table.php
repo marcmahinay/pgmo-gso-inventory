@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('code');
             $table->string('name');
+            $table->string('address');
             $table->string('head_of_office');
             $table->string('position');
             $table->timestamps();
