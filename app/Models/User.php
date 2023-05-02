@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use DateTimeInterface;
 
 class User extends Authenticatable implements LaratrustUser
 {
@@ -43,4 +44,18 @@ class User extends Authenticatable implements LaratrustUser
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function transactionsMorph() {
+        return $this->morphMany('App\Transaction', 'transactable');
+    }
+
+    public function transactions() {
+        //return $this->belongsToMany('App\Transactions');
+        return $this->hasMany('App\Transaction');
+    }
+
+    public function serializeDate(DateTimeInterface $date) {
+        return $date->format('Y-m-d H:i:s');
+    }
+
 }
