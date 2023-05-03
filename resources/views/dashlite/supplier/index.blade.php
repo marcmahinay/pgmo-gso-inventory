@@ -1,6 +1,6 @@
 @extends('dashlite.layouts.app')
 
-@section('title','Inventory')
+@section('title','Suppliers')
 
 @section('stylesheets','')
 
@@ -15,7 +15,7 @@
                 <div class="nk-block-head nk-block-head-sm">
                     <div class="nk-block-between">
                         <div class="nk-block-head-content">
-                            <h3 class="nk-block-title page-title">Inventory</h3>
+                            <h3 class="nk-block-title page-title">Suppliers</h3>
                         </div><!-- .nk-block-head-content -->
                         <div class="nk-block-head-content">
                             <div class="toggle-wrap nk-block-tools-toggle">
@@ -35,7 +35,7 @@
                                                 <a href="#" class="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white" data-bs-toggle="dropdown">Status</a>
                                                 <div class="dropdown-menu dropdown-menu-end">
                                                     <ul class="link-list-opt no-bdr">
-                                                        <li><a href="#"><span>New Items</span></a></li>
+                                                        <li><a href="#"><span>New Uom</span></a></li>
                                                         <li><a href="#"><span>Featured</span></a></li>
                                                         <li><a href="#"><span>Out of Stock</span></a></li>
                                                     </ul>
@@ -44,7 +44,7 @@
                                         </li>
                                         <li class="nk-block-tools-opt">
                                             <a href="#" data-target="addProduct" class="toggle btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
-                                            <a href="#" data-target="addProduct" class="toggle btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Item</span></a>
+                                            <a href="#" data-target="addProduct" class="toggle btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add supplier</span></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -64,13 +64,9 @@
                                                 <label class="custom-control-label" for="pid"></label>
                                             </div>
                                         </div>
-                                        <div class="nk-tb-col tb-col-sm"><span>Name</span></div>
-                                        <div class="nk-tb-col"><span>Stock No.</span></div>
-                                        <div class="nk-tb-col"><span>UOM</span></div>
-                                        <div class="nk-tb-col tb-col-sm"><span>Stock</span></div>
-                                        <div class="nk-tb-col tb-col-md"><span>Unit Cost</span></div>
-                                        <div class="nk-tb-col"><span>Total Cost</span></div>
-                                        <div class="nk-tb-col"><span>Re-order Point</span></div>
+                                        <div class="nk-tb-col tb-col-sm"><span>Code</span></div>
+                                        <div class="nk-tb-col"><span>Name</span></div>
+                                        <div class="nk-tb-col"><span>Address</span></div>
                                         <div class="nk-tb-col nk-tb-col-tools">
                                             <ul class="nk-tb-actions gx-1 my-n1">
                                                 <li class="me-n1">
@@ -89,40 +85,30 @@
                                             </ul>
                                         </div>
                                     </div><!-- .nk-tb-item -->
-                                    @foreach ($items as $item)
+                                    {{-- @if($suppliers->total() <= 0) 
+                                            <div>
+                                                <span styl>No data!</span>
+                                            </div>
+                                    @endif --}}
+                                    @foreach ($suppliers as $supplier)
                                         <div class="nk-tb-item">
                                             <div class="nk-tb-col nk-tb-col-check">
                                                 <div class="custom-control custom-control-sm custom-checkbox notext">
-                                                    <input type="checkbox" class="custom-control-input" id="{{$item->id}}">
-                                                    <label class="custom-control-label" for="{{$item->id}}"></label>
+                                                    <input type="checkbox" class="custom-control-input" id="{{$supplier->id}}">
+                                                    <label class="custom-control-label" for="{{$supplier->id}}"></label>
                                                 </div>
                                             </div>
-                                            <div class="nk-tb-col tb-col-sm">
+                                            <div class="nk-tb-col">
                                                 <span class="tb-product">
-                                                    <img src="{{$item->images}}" alt="" class="thumb">
-                                                    <span class="title">{{$item->description}}</span>
+                                                    <span class="title">{{$supplier->code}}</span>
                                                 </span>
                                             </div>
                                             <div class="nk-tb-col">
-                                                <span class="tb-sub">{{$item->stock_no}}</span>
+                                                <span class="tb-sub">{{$supplier->name}}</span>
                                             </div>
                                             <div class="nk-tb-col">
-                                                <span class="tb-sub">{{$item->uom_name}}</span>
+                                                <span class="tb-sub">{{$supplier->address}}</span>
                                             </div>
-
-                                            <div class="nk-tb-col tb-col-sm">
-                                                <span class="tb-sub">{{$item->current_quantity}}</span>
-                                            </div>
-                                            <div class="nk-tb-col tb-col-sm">
-                                                <span class="tb-lead">{{$item->average_unit_cost}}</span>
-                                            </div>
-                                            <div class="nk-tb-col">
-                                                <span class="tb-lead">{{$item->current_total_cost}}</span>
-                                            </div>
-                                            <div class="nk-tb-col">
-                                                <span class="tb-sub">{{$item->reorder_point}}</span>
-                                            </div>
-
                                             <div class="nk-tb-col nk-tb-col-tools">
                                                 <ul class="nk-tb-actions gx-1 my-n1">
                                                     <li class="me-n1">
@@ -148,7 +134,7 @@
                             <div class="card-inner">
                                 <div class="nk-block-between-md g-3">
                                     <div class="g">
-                                        {{$items->links('dashlite.layouts.pagination')}}
+                                        {{$suppliers->links('dashlite.layouts.pagination')}}
                                         <!-- .pagination -->
                                     </div>
                                     <div class="g">
@@ -212,9 +198,9 @@
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="category">Category</label>
+                                    <label class="form-label" for="supplier">supplier</label>
                                     <div class="form-control-wrap">
-                                        <input type="text" class="form-control" id="category">
+                                        <input type="text" class="form-control" id="supplier">
                                     </div>
                                 </div>
                             </div>
