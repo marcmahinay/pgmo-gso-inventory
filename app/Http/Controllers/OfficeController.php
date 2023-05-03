@@ -12,7 +12,14 @@ class OfficeController extends Controller
      */
     public function index()
     {
-        //
+        $offices = Office::select('id', 'code', 'name','address','head_of_office','position','contact_no')
+        ->orderBy('name')
+        ->paginate(20);
+        //->get();
+        $data = compact(['offices']);
+
+        //dd($items);
+        return view('dashlite.office.index', $data);
     }
 
     /**
