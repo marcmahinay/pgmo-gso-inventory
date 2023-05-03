@@ -12,7 +12,14 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::select('id', 'code', 'description')
+                    ->orderBy('code')
+                    ->paginate(20);
+                    //->get();
+        $data = compact(['categories']);
+
+        //dd($items);
+        return view('dashlite.category.index', $data);
     }
 
     /**
