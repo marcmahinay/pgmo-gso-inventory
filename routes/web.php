@@ -6,6 +6,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UomController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\OfficeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,5 +48,8 @@ Route::get('/category', [CategoryController::class, 'index'])
 
 Route::get('/supplier', [SupplierController::class, 'index'])
     ->middleware(['auth', 'verified'])->name('supplier.index');
+
+Route::get('/office', [OfficeController::class, 'index'])
+    ->middleware(['auth', 'verified'])->name('office.index');
 
 require __DIR__.'/auth.php';
