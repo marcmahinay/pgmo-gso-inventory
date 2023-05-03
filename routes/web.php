@@ -1,6 +1,11 @@
 <?php
 
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\UomController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,12 +33,19 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/inventory', function () {
-    return view('dashlite/inventory');
-})->middleware(['auth', 'verified'])->name('inventory');
+Route::get('/inventory', [InventoryController::class, 'index'])
+    ->middleware(['auth', 'verified'])->name('inventory');
 
-Route::get('/item', function () {
-    return view('dashlite/item/index');
-})->middleware(['auth', 'verified'])->name('item.index');
+Route::get('/item', [ItemController::class, 'index'])
+    ->middleware(['auth', 'verified'])->name('item.index');
+
+Route::get('/uom', [UomController::class, 'index'])
+    ->middleware(['auth', 'verified'])->name('uom.index');
+
+Route::get('/category', [CategoryController::class, 'index'])
+    ->middleware(['auth', 'verified'])->name('category.index');
+
+Route::get('/supplier', [SupplierController::class, 'index'])
+    ->middleware(['auth', 'verified'])->name('supplier.index');
 
 require __DIR__.'/auth.php';
