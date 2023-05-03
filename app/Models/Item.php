@@ -15,4 +15,8 @@ class Item extends Model
         return $this->belongsToMany('App\Transaction')
             ->withPivot('id','quantity','unit_cost','total_cost','balance_quantity','balance_unit_cost','balance_total_cost');
     }
+
+    public function uoms() {
+        return $this->has
+    }
 }
