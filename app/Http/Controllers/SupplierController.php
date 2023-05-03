@@ -12,7 +12,14 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        //
+        $suppliers = Supplier::select('id', 'code', 'name','description')
+        ->orderBy('name')
+        ->paginate(20);
+        //->get();
+        $data = compact(['suppliers']);
+
+        //dd($items);
+        return view('dashlite.supplier.index', $data);
     }
 
     /**

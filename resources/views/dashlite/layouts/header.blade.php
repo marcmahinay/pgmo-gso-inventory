@@ -30,6 +30,11 @@
                         </a>
                     </li><!-- .nk-menu-item -->
                     <li class="nk-menu-item">
+                        <a href="/po" class="nk-menu-link">
+                            <span class="nk-menu-text">Purchase Order</span>
+                        </a>
+                    </li><!-- .nk-menu-item -->
+                    <li class="nk-menu-item">
                         <a href="/inventory" class="nk-menu-link">
                             <span class="nk-menu-text">Inventory</span>
                         </a>
@@ -74,9 +79,20 @@
                         </a>
                         <ul class="nk-menu-sub">
                             <li class="nk-menu-item">
+                                <a href="/uom" class="nk-menu-link">
+                                    <span class="nk-menu-text">UOM</span>
+                                </a>
+                            </li>
+                            <li class="nk-menu-item">
+                                <a href="/category" class="nk-menu-link">
+                                    <span class="nk-menu-text">Categories</span>
+                                </a>
+                            </li>
+                            <li class="nk-menu-item">
                                 <a href="/item" class="nk-menu-link">
                                     <span class="nk-menu-text">Items</span>
                                 </a>
+                            </li>
                             <li class="nk-menu-item">
                                 <a href="/supplier" class="nk-menu-link">
                                     <span class="nk-menu-text">Suppliers</span>
@@ -232,41 +248,6 @@
                             </div>
                         </div>
                     </li>
-                    <li class="dropdown language-dropdown d-none d-sm-block me-n1">
-                        <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
-                            <div class="quick-icon border border-light">
-                                <img class="icon" src="./images/flags/english-sq.png" alt="">
-                            </div>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end dropdown-menu-s1">
-                            <ul class="language-list">
-                                <li>
-                                    <a href="#" class="language-item">
-                                        <img src="./images/flags/english.png" alt="" class="language-flag">
-                                        <span class="language-name">English</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="language-item">
-                                        <img src="./images/flags/spanish.png" alt="" class="language-flag">
-                                        <span class="language-name">Español</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="language-item">
-                                        <img src="./images/flags/french.png" alt="" class="language-flag">
-                                        <span class="language-name">Français</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="language-item">
-                                        <img src="./images/flags/turkey.png" alt="" class="language-flag">
-                                        <span class="language-name">Türkçe</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li><!-- .dropdown -->
                     <li class="dropdown user-dropdown">
                         <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
                             <div class="user-toggle">

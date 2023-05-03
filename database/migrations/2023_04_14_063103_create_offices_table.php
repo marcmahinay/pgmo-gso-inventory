@@ -16,8 +16,9 @@ return new class extends Migration
             $table->string('code');
             $table->string('name');
             $table->string('address');
-            $table->string('head_of_office');
-            $table->string('position');
+            $table->string('head_of_office')->nullable();
+            $table->string('position')->nullable();
+            $table->string('contact_no')->nullable();
             $table->timestamps();
         });
     }

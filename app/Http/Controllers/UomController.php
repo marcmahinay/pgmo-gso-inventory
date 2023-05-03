@@ -12,7 +12,14 @@ class UomController extends Controller
      */
     public function index()
     {
-        //
+        $uoms = Uom::select('id', 'name', 'description')
+                    ->orderBy('name')
+                    ->paginate(20);
+                    //->get();
+        $data = compact(['uoms']);
+
+        //dd($items);
+        return view('dashlite.uom.index', $data);
     }
 
     /**
