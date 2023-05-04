@@ -105,7 +105,7 @@
                                                 <span class="tb-sub">{{$item->stock_no}}</span>
                                             </div>
                                             <div class="nk-tb-col">
-                                                <span class="tb-sub">{{$item->uom_name}}</span>
+                                                <span class="tb-sub">{{$item->uom->name}}</span>
                                             </div>
 
                                             <div class="nk-tb-col">
