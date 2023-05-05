@@ -12,10 +12,7 @@ class Item extends Model
 
     protected $guarded = [];
 
-    public function transactions() {
-        return $this->belongsToMany('App\Transaction')
-            ->withPivot('id','quantity','unit_cost','total_cost','balance_quantity','balance_unit_cost','balance_total_cost');
-    }
+
 
     public function uom() : BelongsTo
     {
@@ -25,6 +22,11 @@ class Item extends Model
     public function category() : BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function stocks(): HasMany
+    {
+        return $this->hasMany(Stock::class);
     }
 
 
