@@ -39,15 +39,18 @@
                             <span class="nk-menu-text">Inventory</span>
                         </a>
                     </li><!-- .nk-menu-item -->
-                    <li class="nk-menu-item">
-                        <a href="/receive" class="nk-menu-link">
-                            <span class="nk-menu-text">Receive</span>
+                    <li class="nk-menu-item has-sub">
+                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                            <span class="nk-menu-text">Transactions</span>
                         </a>
-                    </li><!-- .nk-menu-item -->
-                    <li class="nk-menu-item">
-                        <a href="/issue" class="nk-menu-link">
-                            <span class="nk-menu-text">Issue</span>
-                        </a>
+                        <ul class="nk-menu-sub">
+                            <li class="nk-menu-item">
+                                <a href="/receive" class="nk-menu-link"><span class="nk-menu-text">Receive</span></a>
+                            </li>
+                            <li class="nk-menu-item">
+                                <a href="/issue" class="nk-menu-link"><span class="nk-menu-text">Issue</span></a>
+                            </li>
+                        </ul><!-- .nk-menu-sub -->
                     </li><!-- .nk-menu-item -->
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">
@@ -67,11 +70,6 @@
                                 <a href="/reports/quarterly" class="nk-menu-link"><span class="nk-menu-text">Issued Quarterly</span></a>
                             </li>
                         </ul><!-- .nk-menu-sub -->
-                    </li><!-- .nk-menu-item -->
-                    <li class="nk-menu-item">
-                        <a href="/transactions" class="nk-menu-link">
-                            <span class="nk-menu-text">Transactions</span>
-                        </a>
                     </li><!-- .nk-menu-item -->
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">
