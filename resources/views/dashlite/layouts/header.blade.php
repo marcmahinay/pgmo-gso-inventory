@@ -75,7 +75,7 @@
                     </li><!-- .nk-menu-item -->
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">
-                            <span class="nk-menu-text">Data</span>
+                            <span class="nk-menu-text">Manage</span>
                         </a>
                         <ul class="nk-menu-sub">
                             <li class="nk-menu-item">
