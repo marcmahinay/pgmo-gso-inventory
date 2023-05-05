@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->string('reference');
-            $table->string('notes',500);
+            $table->foreignId('reference_id')->constrained();
+            $table->string('notes',500)->nullable();
+            $table->string('funds',20)->nullable();
             $table->foreignId('transaction_type_id')->constrained();
             $table->morphs('transactable');
             $table->timestamp('transaction_date');

@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('item_transaction', function (Blueprint $table) {
+        Schema::create('stock_transaction', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('item_id')->constrained();
+            $table->foreignId('stock_id')->constrained();
             $table->foreignId('transaction_id')->constrained();
-            $table->double('quantity')->nullable();
-            $table->decimal('unit_cost',10,2,true)->nullable();
-            $table->decimal('total_cost',10,2,true)->nullable();
+            $table->double('quantity');
             $table->double('balance_quantity');
+            $table->decimal('unit_cost',10,2,true)->default(0.00);
+            $table->decimal('total_cost',10,2,true)->default(0.00);
             $table->decimal('balance_unit_cost',10,2,true);
             $table->decimal('balance_total_cost',10,2,true);
             $table->timestamps();
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('item_transaction');
+        Schema::dropIfExists('stock_transaction');
     }
 };
