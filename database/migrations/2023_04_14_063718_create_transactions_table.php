@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('reference_id')->constrained();
+            $table->morphs('referenceable');
             $table->string('notes',500)->nullable();
             $table->string('funds',20)->nullable();
             $table->foreignId('transaction_type_id')->constrained();
