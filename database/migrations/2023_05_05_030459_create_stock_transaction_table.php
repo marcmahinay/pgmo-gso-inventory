@@ -17,10 +17,10 @@ return new class extends Migration
             $table->foreignId('transaction_id')->constrained();
             $table->double('quantity');
             $table->double('balance_quantity');
+            $table->double('item_balance_quantity')->nullable();
             $table->decimal('unit_cost',10,2,true)->default(0.00);
-            $table->decimal('total_cost',10,2,true)->default(0.00);
-            $table->decimal('balance_unit_cost',10,2,true);
-            $table->decimal('balance_total_cost',10,2,true);
+            $table->decimal('balance_unit_cost',10,2,true)->default(0.00);
+            $table->decimal('balance_total_cost',10,2,true)->default(0.00);
             $table->timestamps();
         });
     }

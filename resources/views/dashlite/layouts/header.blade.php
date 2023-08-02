@@ -30,13 +30,23 @@
                         </a>
                     </li><!-- .nk-menu-item -->
                     <li class="nk-menu-item">
+                        <a href="/inventory" class="nk-menu-link">
+                            <span class="nk-menu-text">Stock Inventory</span>
+                        </a>
+                    </li><!-- .nk-menu-item -->
+                    <li class="nk-menu-item">
                         <a href="/po" class="nk-menu-link">
                             <span class="nk-menu-text">Purchase Order</span>
                         </a>
                     </li><!-- .nk-menu-item -->
                     <li class="nk-menu-item">
-                        <a href="/inventory" class="nk-menu-link">
-                            <span class="nk-menu-text">Inventory</span>
+                        <a href="/air" class="nk-menu-link">
+                            <span class="nk-menu-text">AIR</span>
+                        </a>
+                    </li><!-- .nk-menu-item -->
+                    <li class="nk-menu-item">
+                        <a href="/ris" class="nk-menu-link">
+                            <span class="nk-menu-text">RIS</span>
                         </a>
                     </li><!-- .nk-menu-item -->
                     <li class="nk-menu-item has-sub">

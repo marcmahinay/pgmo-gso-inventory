@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('offices', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('code');
             $table->string('name');
-            $table->string('address');
-            $table->string('head_of_office')->nullable();
-            $table->string('position')->nullable();
-            $table->string('contact_no')->nullable();
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->string('avatar')->nullable();
+            $table->foreignId('employee_id')->constrained();
+            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('offices');
+        Schema::dropIfExists('users');
     }
 };

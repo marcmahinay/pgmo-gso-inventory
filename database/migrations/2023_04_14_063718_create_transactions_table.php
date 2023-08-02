@@ -14,12 +14,13 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->morphs('referenceable');
-            $table->string('notes',500)->nullable();
-            $table->string('funds',20)->nullable();
-            $table->foreignId('transaction_type_id')->constrained();
-            $table->morphs('transactable');
+            $table->string('notes',800)->nullable();
+            $table->foreignId('fund_id')->constrained()->nullable();
+            $table->string('transaction_type',30);
             $table->timestamp('transaction_date');
+            $table->morphs('transactable');
             $table->foreignId('user_id')->constrained('users')->onDelete('no action')->onUpdate('cascade');
+            $table->foreignId('requisitioning_office')->constrained('offices')->onDelete('no action')->onUpdate('cascade');
             $table->timestamps();
         });
     }

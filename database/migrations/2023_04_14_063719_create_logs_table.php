@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transaction_types', function (Blueprint $table) {
+        Schema::create('logs', function (Blueprint $table) {
             $table->id();
-            $table->string('name',50);
+            $table->foreignId('user_id')->constrained();
+            $table->string('action', 200);
+            $table->text('context');
+            $table->string('remoteconnection', 200)->nullable();
             $table->timestamps();
         });
     }
@@ -23,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transaction_types');
+        Schema::dropIfExists('logs');
     }
 };

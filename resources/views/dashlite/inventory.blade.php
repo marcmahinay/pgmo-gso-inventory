@@ -120,7 +120,7 @@
                                                 <span class="tb-lead">{{$item->current_total_cost}}</span>
                                             </div>
                                             <div class="nk-tb-col">
-                                                <span class="tb-sub">{{$item->reorder_point}}</span>
+                                                <span class="tb-sub">{{$item->reorder}}</span>
                                             </div>
 
                                             <div class="nk-tb-col nk-tb-col-tools">

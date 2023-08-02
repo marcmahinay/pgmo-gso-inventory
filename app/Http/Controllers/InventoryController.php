@@ -9,7 +9,7 @@ class InventoryController extends Controller
 {
     public function index() {
 
-        $items = Item::select('items.id', 'stock_no', 'items.description', 'uoms.name as uom_name', 'categories.code as cat_code', 'current_quantity', 'average_unit_cost', 'current_total_cost', 'reorder_point')
+        $items = Item::select('items.id', 'stock_no', 'items.description', 'uoms.name as uom_name', 'categories.code as cat_code', 'current_quantity', 'average_unit_cost', 'current_total_cost', 'reorder')
                     ->join('uoms', 'uom_id', '=', 'uoms.id')
                     ->join('categories','category_id','=','categories.id')
                     ->orderBy('description')

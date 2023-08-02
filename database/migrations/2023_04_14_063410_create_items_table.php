@@ -18,11 +18,13 @@ return new class extends Migration
             $table->string('description',500);
             $table->foreignId('uom_id')->constrained();
             $table->foreignId('category_id')->constrained();
-            $table->string('images')->nullable();
-            $table->double('reorder_point')->default(0);
+            $table->double('monthly_average_consumption')->default(0);
+            $table->double('reorder')->default(0);
             $table->double('current_quantity')->default(0);
             $table->decimal('average_unit_cost',10,2,true)->default(0);
             $table->decimal('current_total_cost',10,2,true)->default(0);
+            $table->tinyInteger('status')->default(1);
+            $table->string('images')->nullable();
             $table->timestamps();
         });
     }

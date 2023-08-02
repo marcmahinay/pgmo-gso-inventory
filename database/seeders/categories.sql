@@ -1,6 +1,6 @@
-INSERT INTO `categories` (`code`,`description`,`created_at`, `updated_at`) VALUES
-('FCS','Food/Catering Services',now(),now()),
-('IP','Infrastructure Projects',now(),now()),
-('MMS','Medicines and Medical Supplies',now(),now()),
-('OGS','Other Goods and Services',now(),now()),
-('OSE','Office Supplies and Equipments',now(),now());
+INSERT INTO `categories` (`code`,`name`, `description`, `created_at`, `updated_at`) VALUES
+('FCS','Food/Catering Services', null ,now(),now()),
+('IP','Infrastructure Projects', null ,now(),now()),
+('MMS','Medicines and Medical Supplies', null ,now(),now()),
+('OGS','Other Goods and Services', null ,now(),now()),
+('OSE','Office Supplies and Equipments', null ,now(),now());

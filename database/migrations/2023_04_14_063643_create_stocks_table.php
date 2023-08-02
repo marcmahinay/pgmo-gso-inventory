@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('item_id')->constrained();
+            $table->foreignId('fund_id')->constrained();
             $table->double('quantity');
             $table->double('on_hand');
             $table->decimal('unit_cost',10,2,true)->default(0);
+            $table->decimal('balance_unit_cost',10,2,true)->default(0);
             $table->timestamps();
         });
     }

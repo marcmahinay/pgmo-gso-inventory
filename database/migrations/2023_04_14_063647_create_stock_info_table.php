@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('stock_info', function (Blueprint $table) {
             $table->id();
             $table->foreignId('stock_id')->constrained();
+            $table->string('batch',50)->nullable();
+            $table->string('brand',50)->nullable();
             $table->date('expiry_date')->nullable();
-            $table->string('batch',30);
-            $table->string('brand',50);
             $table->timestamps();
         });
     }
