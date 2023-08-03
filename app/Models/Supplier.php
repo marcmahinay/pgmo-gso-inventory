@@ -12,4 +12,9 @@ class Supplier extends Model
     public function transactionsMorph() {
         return $this->morphMany('App\Transaction', 'transactable');
     }
+
+    public function po()
+    {
+        return $this->hasMany('App\Models\PurchaseOrder');
+    }
 }

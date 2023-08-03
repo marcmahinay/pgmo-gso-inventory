@@ -7,6 +7,7 @@ use App\Http\Controllers\UomController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\OfficeController;
+use App\Http\Controllers\PurchaseOrderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,7 +26,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashlite/dashboard');
+    return view('dashlite01/dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -34,8 +35,31 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/inventory', [InventoryController::class, 'index'])
-    ->middleware(['auth', 'verified'])->name('inventory');
+
+
+Route::get('/stock-inventory', [InventoryController::class, 'stock'])  // Item Inventory
+    ->middleware(['auth', 'verified'])->name('stock-inventory');
+
+Route::get('/air-stock-inventory', [InventoryController::class, 'stockAir'])  // Stock Inventory
+    ->middleware(['auth', 'verified'])->name('air-stock-inventory');
+
+
+Route::get('/purchase-order', [PurchaseOrderController::class, 'index'])  // 
+    ->middleware(['auth', 'verified'])->name('purchase-order');
+
+
+Route::get('/acceptance-inspection-report', function () {
+    return view('dashlite01/acceptance-inspection-report/index');
+})->middleware(['auth', 'verified'])->name('acceptance-inspection-report');
+
+
+Route::get('/requisition-issue-slip', function () {
+    return view('dashlite01/requisition-issue-slip/index');
+})->middleware(['auth', 'verified'])->name('requisition-issue-slip');
+
+Route::get('/report/ssmi', function () {
+    return view('dashlite01/report/ssmi');
+})->middleware(['auth', 'verified'])->name('report-ssmi');
 
 Route::get('/item', [ItemController::class, 'index'])
     ->middleware(['auth', 'verified'])->name('item.index');
