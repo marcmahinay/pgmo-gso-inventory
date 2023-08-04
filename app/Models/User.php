@@ -58,4 +58,9 @@ class User extends Authenticatable implements LaratrustUser
         return $date->format('Y-m-d H:i:s');
     }
 
+    public function employee()
+    {
+        return $this->belongsTo('App\Models\Employee');
+    }
+
 }
