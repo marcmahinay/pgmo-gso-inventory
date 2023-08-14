@@ -44,8 +44,12 @@ Route::get('/air-stock-inventory', [InventoryController::class, 'stockAir'])  //
     ->middleware(['auth', 'verified'])->name('air-stock-inventory');
 
 
-Route::get('/purchase-order', [PurchaseOrderController::class, 'index'])  // 
-    ->middleware(['auth', 'verified'])->name('purchase-order');
+Route::middleware('auth')->group(function () {
+    Route::get('/purchase-order', [PurchaseOrderController::class, 'index'])->name('purchase-order.index');
+    Route::post('/purchase-order', [PurchaseOrderController::class, 'store'])->name('purchase-order.store');
+    Route::patch('/purchase-order', [PurchaseOrderController::class, 'update'])->name('purchase-order.update');
+    Route::delete('/purchase-order', [PurchaseOrderController::class, 'destroy'])->name('purchase-order.destroy');
+});
 
 
 Route::get('/acceptance-inspection-report', function () {

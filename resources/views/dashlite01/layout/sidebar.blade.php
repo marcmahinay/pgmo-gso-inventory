@@ -34,7 +34,7 @@
                         </a>
                     </li><!-- .nk-menu-item -->
                     <li class="nk-menu-item has-sub">
-                        <a href="{{ route('purchase-order')}}" class="nk-menu-link">
+                        <a href="{{ route('purchase-order.index')}}" class="nk-menu-link">
                             <span class="nk-menu-icon"><em class="icon ni ni-file-docs"></em></span>
                             <span class="nk-menu-text">Purchase Order</span>
                         </a>
