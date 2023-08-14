@@ -5,12 +5,49 @@
 
 @section('stylesheets', '')
 
-@section('scripts', '')
+@section('scripts')
+    <script text="text/javascript">
+        $(document).ready(function() {
+            $("#btnAddPO").click(function(event) {
+                event.preventDefault(); // Prevent the default form submission
 
+                // Get the values of the input fields
+                var poNo = $("#no").val().trim();
+                var poDate = $("#date").val().trim();
+                var poDescription = $("#description").val().trim();
+                var poSupplier = $("#supplier_id").val();
+
+                // Perform validation
+                if (poNo === "") {
+                    alert("Purchase Order No. field cannot be empty.");
+                    return;
+                }
+                if (poDate === "") {
+                    alert("Purchase Order Date field cannot be empty.");
+                    return;
+                }
+                if (poDescription === "") {
+                    alert("Description field cannot be empty.");
+                    return;
+                }
+                if (poSupplier === "") {
+                    alert("Please select a supplier.");
+                    return;
+                }
+
+                // If all fields are filled, submit the form
+                $("#frmAddPO").submit();
+            });
+        });
+    </script>
+@endsection
 
 @section('content')
+            
+
     <div class="nk-content ">
         <div class="container-fluid">
+            @include('dashlite01.layout.alerts') 
             <div class="nk-content-inner">
                 <div class="nk-content-body">
                     <div class="nk-block-head nk-block-head-sm">
@@ -35,8 +72,8 @@
                                                         data-bs-toggle="dropdown"><em class="icon ni ni-plus"></em></a>
                                                     <div class="dropdown-menu dropdown-menu-end">
                                                         <ul class="link-list-opt no-bdr">
-                                                            <li><a data-bs-toggle="modal" href="#addLead"><span>Add
-                                                                        Lead</span></a></li>
+                                                            <li><a data-bs-toggle="modal" href="#modalAddPO"><span>Add
+                                                                        Purchase Order</span></a></li>
                                                             <li><a href="#"><span>Import Lead</span></a></li>
                                                         </ul>
                                                     </div>
@@ -71,8 +108,7 @@
                                                         <div class="toggle-content" data-content="cardTools">
                                                             <ul class="btn-toolbar gx-1">
                                                                 <li class="toggle-close">
-                                                                    <a href="#"
-                                                                        class="btn btn-icon btn-trigger toggle"
+                                                                    <a href="#" class="btn btn-icon btn-trigger toggle"
                                                                         data-target="cardTools"><em
                                                                             class="icon ni ni-arrow-left"></em></a>
                                                                 </li><!-- li -->
@@ -91,8 +127,7 @@
                                                                                     class="sub-title dropdown-title">Filter
                                                                                     Users</span>
                                                                                 <div class="dropdown">
-                                                                                    <a href="#"
-                                                                                        class="btn btn-sm btn-icon">
+                                                                                    <a href="#" class="btn btn-sm btn-icon">
                                                                                         <em class="icon ni ni-more-h"></em>
                                                                                     </a>
                                                                                 </div>
@@ -188,8 +223,7 @@
                                             <div class="search-content">
                                                 <a href="#" class="search-back btn btn-icon toggle-search"
                                                     data-target="search"><em class="icon ni ni-arrow-left"></em></a>
-                                                <input type="text"
-                                                    class="form-control border-transparent form-focus-none"
+                                                <input type="text" class="form-control border-transparent form-focus-none"
                                                     placeholder="Search by user or email">
                                                 <button class="search-submit btn btn-icon"><em
                                                         class="icon ni ni-search"></em></button>
@@ -202,8 +236,10 @@
                                         <div class="nk-tb-item nk-tb-head">
                                             <div class="nk-tb-col"><span class="sub-text">No.</span></div>
                                             <div class="nk-tb-col tb-col-md"><span class="sub-text">Date</span></div>
-                                            <div class="nk-tb-col tb-col-sm"><span class="sub-text">Description</span></div>
-                                            <div class="nk-tb-col tb-col-xxl"><span class="sub-text">Supplier</span></div>
+                                            <div class="nk-tb-col tb-col-sm"><span class="sub-text">Description</span>
+                                            </div>
+                                            <div class="nk-tb-col tb-col-xxl"><span class="sub-text">Supplier</span>
+                                            </div>
                                             <div class="nk-tb-col"><span class="sub-text">Status</span></div>
                                             <div class="nk-tb-col nk-tb-col-tools text-end">
                                                 <div class="dropdown">
@@ -246,89 +282,89 @@
                                             </div>
                                         </div><!-- .nk-tb-item -->
                                         @forelse ($pos as $po)
-                                        <div class="nk-tb-item">
-                                            <div class="nk-tb-col">
-                                                <span class="tb-lead">{{$po->no}}</span>
-                                            </div>
+                                            <div class="nk-tb-item">
+                                                <div class="nk-tb-col">
+                                                    <span class="tb-lead">{{ $po->no }}</span>
+                                                </div>
 
-                                            @php
-                                                $poDate = $po->date; // Assuming $po->date contains the date in a valid format (e.g., "YYYY-MM-DD")
-
-                                                // Convert the $poDate string to a Carbon instance
-                                                $poCarbon = Carbon\Carbon::parse($poDate);
-
-                                                // Get the current date as a Carbon instance
-                                                $currentDate = Carbon\Carbon::now();
-
-                                                // Calculate the interval between the two dates
-                                                $interval = $currentDate->diff($poCarbon);
-
-                                                $elapsedHuman = $currentDate->diffForHumans($poCarbon);
-                                                $elapsedHuman = str_replace('after', 'elapsed', $elapsedHuman);
-                                                // Get the elapsed days and months
-                                                $elapsedDays = $interval->days;
-                                                $elapsedMonths = $interval->m;
-                                            @endphp
-                                            <div class="nk-tb-col tb-col-md">
-                                                <span>{{$po->date}}, {{$elapsedHuman}}</span>
-                                            </div>
-                                            <div class="nk-tb-col tb-col-sm">
-                                                <span>{{ $po->description}}</span>
-                                            </div>
-                                            <div class="nk-tb-col tb-col-xxl">
-                                                <span>{{ $po->supplier->name}}</span>
-                                            </div>
-                                            <div class="nk-tb-col">
-                                                @if($po->status == 0)
-                                                    <span class="tb-status text-danger">No Delivery</span>
-                                                @elseif($po->status == 1)
-                                                    <span class="tb-status text-warning">Partial</span>
-                                                @elseif($po->status == 2)
-                                                    <span class="tb-status text-success">Completed</span>
-                                                @else
-                                                    <span class="tb-status text-gray">Undefined Status</span>
-                                                @endif
-                                            </div>
-                                            <div class="nk-tb-col nk-tb-col-tools">
-                                                <ul class="nk-tb-actions gx-2">
-                                                    <li class="nk-tb-action-hidden">
-                                                        <a href="#" class="btn btn-sm btn-icon btn-trigger"
-                                                            data-bs-toggle="tooltip" data-bs-placement="top"
-                                                            title="Send Email">
-                                                            <em class="icon ni ni-mail-fill"></em>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <div class="drodown">
-                                                            <a href="#"
-                                                                class="btn btn-sm btn-icon btn-trigger dropdown-toggle"
-                                                                data-bs-toggle="dropdown"><em
-                                                                    class="icon ni ni-more-h"></em></a>
-                                                            <div class="dropdown-menu dropdown-menu-end">
-                                                                <ul class="link-list-opt no-bdr">
-                                                                    <li><a href="#"><em
-                                                                                class="icon ni ni-eye"></em><span>View
-                                                                                Details</span></a></li>
-                                                                    <li><a data-bs-toggle="modal" href="#editLead"><em
-                                                                                class="icon ni ni-edit"></em><span>Edit</span></a>
-                                                                    </li>
-                                                                    <li><a data-bs-toggle="modal" href="#deleteLead"><em
-                                                                                class="icon ni ni-delete"></em><span>Delete</span></a>
-                                                                    </li>
-                                                                </ul>
+                                                @php
+                                                    $poDate = $po->date; // Assuming $po->date contains the date in a valid format (e.g., "YYYY-MM-DD")
+                                                    
+                                                    // Convert the $poDate string to a Carbon instance
+                                                    $poCarbon = Carbon\Carbon::parse($poDate);
+                                                    
+                                                    // Get the current date as a Carbon instance
+                                                    $currentDate = Carbon\Carbon::now();
+                                                    
+                                                    // Calculate the interval between the two dates
+                                                    $interval = $currentDate->diff($poCarbon);
+                                                    
+                                                    $elapsedHuman = $currentDate->diffForHumans($poCarbon);
+                                                    $elapsedHuman = str_replace('after', 'elapsed', $elapsedHuman);
+                                                    // Get the elapsed days and months
+                                                    $elapsedDays = $interval->days;
+                                                    $elapsedMonths = $interval->m;
+                                                @endphp
+                                                <div class="nk-tb-col tb-col-md">
+                                                    <span>{{ $po->date }}, {{ $elapsedHuman }}</span>
+                                                </div>
+                                                <div class="nk-tb-col tb-col-sm">
+                                                    <span>{{ $po->description }}</span>
+                                                </div>
+                                                <div class="nk-tb-col tb-col-xxl">
+                                                    <span>{{ $po->supplier->name }}</span>
+                                                </div>
+                                                <div class="nk-tb-col">
+                                                    @if ($po->status == 0)
+                                                        <span class="tb-status text-danger">No Delivery</span>
+                                                    @elseif($po->status == 1)
+                                                        <span class="tb-status text-warning">Partial</span>
+                                                    @elseif($po->status == 2)
+                                                        <span class="tb-status text-success">Completed</span>
+                                                    @else
+                                                        <span class="tb-status text-gray">Undefined Status</span>
+                                                    @endif
+                                                </div>
+                                                <div class="nk-tb-col nk-tb-col-tools">
+                                                    <ul class="nk-tb-actions gx-2">
+                                                        <li class="nk-tb-action-hidden">
+                                                            <a href="#" class="btn btn-sm btn-icon btn-trigger"
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                title="Send Email">
+                                                                <em class="icon ni ni-mail-fill"></em>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <div class="drodown">
+                                                                <a href="#"
+                                                                    class="btn btn-sm btn-icon btn-trigger dropdown-toggle"
+                                                                    data-bs-toggle="dropdown"><em
+                                                                        class="icon ni ni-more-h"></em></a>
+                                                                <div class="dropdown-menu dropdown-menu-end">
+                                                                    <ul class="link-list-opt no-bdr">
+                                                                        <li><a href="#"><em
+                                                                                    class="icon ni ni-eye"></em><span>View
+                                                                                    Details</span></a></li>
+                                                                        <li><a data-bs-toggle="modal" href="#editLead"><em
+                                                                                    class="icon ni ni-edit"></em><span>Edit</span></a>
+                                                                        </li>
+                                                                        <li><a data-bs-toggle="modal" href="#deleteLead"><em
+                                                                                    class="icon ni ni-delete"></em><span>Delete</span></a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div><!-- .nk-tb-item -->
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div><!-- .nk-tb-item -->
                                         @empty
                                             Empty
                                         @endforelse
                                     </div><!-- .nk-tb-list -->
                                 </div><!-- .card-inner -->
                                 <div class="card-inner">
-                                    <ul class="pagination justify-content-center justify-content-md-start">
+                                    {{-- <ul class="pagination justify-content-center justify-content-md-start">
                                         <li class="page-item"><a class="page-link" href="#">Prev</a></li>
                                         <li class="page-item"><a class="page-link" href="#">1</a></li>
                                         <li class="page-item"><a class="page-link" href="#">2</a></li>
@@ -337,7 +373,9 @@
                                         <li class="page-item"><a class="page-link" href="#">6</a></li>
                                         <li class="page-item"><a class="page-link" href="#">7</a></li>
                                         <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                                    </ul><!-- .pagination -->
+                                    </ul> --}}
+                                    <!-- .pagination -->
+                                    {{ $pos->links('dashlite01.layout.pagination') }}
                                 </div><!-- .card-inner -->
                             </div><!-- .card-inner-group -->
                         </div><!-- .card -->
@@ -349,254 +387,76 @@
 @endsection
 
 @section('modals')
-    <!-- select region modal -->
-    <div class="modal fade" tabindex="-1" role="dialog" id="region">
+    <!-- @@ Purchase Order Add Modal @e -->
+    <div class="modal fade" id="modalAddPO">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
+                <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross-sm"></em>
+                </a>
                 <div class="modal-body modal-body-md">
-                    <h5 class="title mb-4">Select Your Country</h5>
-                    <div class="nk-country-region">
-                        <ul class="country-list text-center gy-2">
-                            <li>
-                                <a href="#" class="country-item">
-                                    <img src="./images/flags/arg.png" alt="" class="country-flag">
-                                    <span class="country-name">Argentina</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="country-item">
-                                    <img src="./images/flags/aus.png" alt="" class="country-flag">
-                                    <span class="country-name">Australia</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="country-item">
-                                    <img src="./images/flags/bangladesh.png" alt="" class="country-flag">
-                                    <span class="country-name">Bangladesh</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="country-item">
-                                    <img src="./images/flags/canada.png" alt="" class="country-flag">
-                                    <span class="country-name">Canada <small>(English)</small></span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="country-item">
-                                    <img src="./images/flags/china.png" alt="" class="country-flag">
-                                    <span class="country-name">Centrafricaine</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="country-item">
-                                    <img src="./images/flags/china.png" alt="" class="country-flag">
-                                    <span class="country-name">China</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="country-item">
-                                    <img src="./images/flags/french.png" alt="" class="country-flag">
-                                    <span class="country-name">France</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="country-item">
-                                    <img src="./images/flags/germany.png" alt="" class="country-flag">
-                                    <span class="country-name">Germany</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="country-item">
-                                    <img src="./images/flags/iran.png" alt="" class="country-flag">
-                                    <span class="country-name">Iran</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="country-item">
-                                    <img src="./images/flags/italy.png" alt="" class="country-flag">
-                                    <span class="country-name">Italy</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="country-item">
-                                    <img src="./images/flags/mexico.png" alt="" class="country-flag">
-                                    <span class="country-name">México</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="country-item">
-                                    <img src="./images/flags/philipine.png" alt="" class="country-flag">
-                                    <span class="country-name">Philippines</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="country-item">
-                                    <img src="./images/flags/portugal.png" alt="" class="country-flag">
-                                    <span class="country-name">Portugal</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="country-item">
-                                    <img src="./images/flags/s-africa.png" alt="" class="country-flag">
-                                    <span class="country-name">South Africa</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="country-item">
-                                    <img src="./images/flags/spanish.png" alt="" class="country-flag">
-                                    <span class="country-name">Spain</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="country-item">
-                                    <img src="./images/flags/switzerland.png" alt="" class="country-flag">
-                                    <span class="country-name">Switzerland</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="country-item">
-                                    <img src="./images/flags/uk.png" alt="" class="country-flag">
-                                    <span class="country-name">United Kingdom</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="country-item">
-                                    <img src="./images/flags/english.png" alt="" class="country-flag">
-                                    <span class="country-name">United State</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                    <h5 class="modal-title">Add Purchase Order</h5>
+                    <form action="{{ route('purchase-order.store') }}" id="frmAddPO" method="POST"
+                        class="mt-2">
+                        @method('POST')
+                        @csrf
+                        <div class="row g-gs">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="no">Purchase Order No.</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control @error('no') is-invalid @enderror" name="no"
+                                            id="no" required placeholder="e.g. YYYY-MM-sequence">
+                                    </div>
+                                    @error('no')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="date">Purchase Order Date</label>
+                                    <div class="form-control-wrap">
+                                        <div class="form-icon form-icon-left">
+                                            <em class="icon ni ni-calendar"></em>
+                                        </div>
+                                        <input type="text" class="form-control date-picker" name="date" id="date"
+                                            data-date-format="yyyy-mm-dd" placeholder="YYYY-MM-DD">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="description">Description</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control" name="description" id="description"
+                                            placeholder="e.g. Medical Supplies et. al.">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="supplier_id">Supplier</label>
+                                    <div class="form-control-wrap">
+                                        <select class="form-select js-select2" name="supplier_id" id="supplier_id">
+                                            @foreach ($suppliers as $supplier)
+                                                <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <button type="submit" id="btnAddPO" class="btn btn-primary">Add
+                                        Purchase Order</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </div><!-- .modal-content -->
-        </div><!-- .modla-dialog -->
-    </div><!-- .modal -->
-    <!-- @@ Lead Add Modal @e -->
-    <div class="modal fade" role="dialog" id="addLead">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-                <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
-                <div class="modal-body modal-body-md">
-                    <h5 class="title">Add Lead</h5>
-                    <ul class="nk-nav nav nav-tabs">
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" href="#infomation">Lead Detail's</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" href="#address">Contact Detail's</a>
-                        </li>
-                    </ul><!-- .nav-tabs -->
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="infomation">
-                            <div class="row gy-4">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="lead-name">Name</label>
-                                        <div class="form-control-wrap">
-                                            <input type="text" class="form-control" id="lead-name"
-                                                placeholder="e.g. Abu Bin Ishtiyak">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Type</label>
-                                        <div class="form-control-wrap">
-                                            <select class="form-select js-select2" data-placeholder="Select one">
-                                                <option value="">Select one</option>
-                                                <option value="lead_people">People</option>
-                                                <option value="lead_organization">Organization</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Group</label>
-                                        <div class="form-control-wrap">
-                                            <select class="form-select js-select2" data-placeholder="Select one">
-                                                <option value="">Select one</option>
-                                                <option value="customer">Customer</option>
-                                                <option value="cold_lead">Cold lead</option>
-                                                <option value="hot_lead">Hot Lead</option>
-                                                <option value="warm_lead">Warm Lead</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="open-deal">Open Deal</label>
-                                        <input type="text" class="form-control" id="open-deal" placeholder="e.g. 5">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="close-deal">Close Deal</label>
-                                        <input type="text" class="form-control" id="close-deal" placeholder="e.g. 3">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Status</label>
-                                        <div class="form-control-wrap">
-                                            <select class="form-select js-select2" data-placeholder="Select one">
-                                                <option value="">Select One</option>
-                                                <option value="active">Active</option>
-                                                <option value="pending">Pending</option>
-                                                <option value="cenceled">Cenceled</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
-                                        <li>
-                                            <a href="#" data-bs-dismiss="modal" class="btn btn-primary">Add
-                                                lead</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div><!-- .tab-pane -->
-                        <div class="tab-pane" id="address">
-                            <div class="row gy-4">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="email">Email Address</label>
-                                        <input type="email" class="form-control" id="email"
-                                            placeholder="Email Address">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="phone-no">Phone Number</label>
-                                        <input type="text" class="form-control" id="phone-no"
-                                            placeholder="Phone Number">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="lead-address">Address</label>
-                                        <input type="text" class="form-control" id="lead-address"
-                                            placeholder="Address">
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
-                                        <li>
-                                            <a href="#" data-bs-dismiss="modal" class="btn btn-primary">Add
-                                                Lead</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div><!-- .tab-pane -->
-                    </div><!-- .tab-content -->
-                </div><!-- .modal-body -->
-            </div><!-- .modal-content -->
-        </div><!-- .modal-dialog -->
+            </div>
+        </div>
     </div><!-- .modal -->
     <!-- @@ Lead Edit Modal @e -->
     <div class="modal fade" role="dialog" id="editLead" tabindex="-1">
@@ -620,8 +480,8 @@
                                     <div class="form-group">
                                         <label class="form-label" for="edit-name">Name</label>
                                         <div class="form-control-wrap">
-                                            <input type="text" class="form-control" id="edit-name"
-                                                placeholder="Name" value="Abu Bin Ishtiyak">
+                                            <input type="text" class="form-control" id="edit-name" placeholder="Name"
+                                                value="Abu Bin Ishtiyak">
                                         </div>
                                     </div>
                                 </div>
@@ -704,8 +564,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label" for="edit-lead-address">Address</label>
-                                        <input type="text" class="form-control" id="lead-address"
-                                            placeholder="Address" value="Mirpur, Dhaka, Bangladesh.">
+                                        <input type="text" class="form-control" id="lead-address" placeholder="Address"
+                                            value="Mirpur, Dhaka, Bangladesh.">
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -745,8 +605,8 @@
                                     <div class="form-group">
                                         <label class="form-label" for="edit-name">Name</label>
                                         <div class="form-control-wrap">
-                                            <input type="text" class="form-control" id="edit-name"
-                                                placeholder="Name" value="Softnio">
+                                            <input type="text" class="form-control" id="edit-name" placeholder="Name"
+                                                value="Softnio">
                                         </div>
                                     </div>
                                 </div>
@@ -839,8 +699,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label" for="edit-lead-address">Address</label>
-                                        <input type="text" class="form-control" id="lead-address"
-                                            placeholder="Address" value="Mirpur, Dhaka, Bangladesh.">
+                                        <input type="text" class="form-control" id="lead-address" placeholder="Address"
+                                            value="Mirpur, Dhaka, Bangladesh.">
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -876,8 +736,8 @@
                                     it</button>
                             </li>
                             <li>
-                                <button data-bs-dismiss="modal" data-bs-toggle="modal"
-                                    data-bs-target="#editEventPopup" class="btn btn-danger btn-dim">Cancel</button>
+                                <button data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#editEventPopup"
+                                    class="btn btn-danger btn-dim">Cancel</button>
                             </li>
                         </ul>
                     </div>
