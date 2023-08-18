@@ -40,8 +40,8 @@
                                                         data-bs-toggle="dropdown"><em class="icon ni ni-plus"></em></a>
                                                     <div class="dropdown-menu dropdown-menu-end">
                                                         <ul class="link-list-opt no-bdr">
-                                                            <li><a data-bs-toggle="modal" href="#addLead"><span>Add
-                                                                        Lead</span></a></li>
+                                                            <li><a data-bs-toggle="modal" href="#modalAddAIR"><span>Add
+                                                                        AIR</span></a></li>
                                                             <li><a href="#"><span>Import Lead</span></a></li>
                                                         </ul>
                                                     </div>
@@ -1273,127 +1273,95 @@
         </div><!-- .modla-dialog -->
     </div><!-- .modal -->
     <!-- @@ Lead Add Modal @e -->
-    <div class="modal fade" role="dialog" id="addLead">
+    <div class="modal fade" role="dialog" id="modalAddAIR">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
                 <div class="modal-body modal-body-md">
-                    <h5 class="title">Add Lead</h5>
-                    <ul class="nk-nav nav nav-tabs">
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" href="#infomation">Lead Detail's</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" href="#address">Contact Detail's</a>
-                        </li>
-                    </ul><!-- .nav-tabs -->
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="infomation">
-                            <div class="row gy-4">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="lead-name">Name</label>
-                                        <div class="form-control-wrap">
-                                            <input type="text" class="form-control" id="lead-name"
-                                                placeholder="e.g. Abu Bin Ishtiyak">
-                                        </div>
+                    <h5 class="title">Add Acceptance and Inspection Report</h5>
+                    <form action="{{ route('purchase-order.store') }}" id="frmAddPO" method="POST"
+                        class="mt-2">
+                        @method('POST')
+                        @csrf
+                        <div class="row g-gs">
+                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="no">Purchase Order No.</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control @error('no') is-invalid @enderror" name="no"
+                                            id="no" required placeholder="e.g. YYYY-MM-sequence">
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Type</label>
-                                        <div class="form-control-wrap">
-                                            <select class="form-select js-select2" data-placeholder="Select one">
-                                                <option value="">Select one</option>
-                                                <option value="lead_people">People</option>
-                                                <option value="lead_organization">Organization</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Group</label>
-                                        <div class="form-control-wrap">
-                                            <select class="form-select js-select2" data-placeholder="Select one">
-                                                <option value="">Select one</option>
-                                                <option value="customer">Customer</option>
-                                                <option value="cold_lead">Cold lead</option>
-                                                <option value="hot_lead">Hot Lead</option>
-                                                <option value="warm_lead">Warm Lead</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="open-deal">Open Deal</label>
-                                        <input type="text" class="form-control" id="open-deal" placeholder="e.g. 5">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="close-deal">Close Deal</label>
-                                        <input type="text" class="form-control" id="close-deal" placeholder="e.g. 3">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Status</label>
-                                        <div class="form-control-wrap">
-                                            <select class="form-select js-select2" data-placeholder="Select one">
-                                                <option value="">Select One</option>
-                                                <option value="active">Active</option>
-                                                <option value="pending">Pending</option>
-                                                <option value="cenceled">Cenceled</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
-                                        <li>
-                                            <a href="#" data-bs-dismiss="modal" class="btn btn-primary">Add
-                                                lead</a>
-                                        </li>
-                                    </ul>
+                                    @error('no')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
-                        </div><!-- .tab-pane -->
-                        <div class="tab-pane" id="address">
-                            <div class="row gy-4">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="email">Email Address</label>
-                                        <input type="email" class="form-control" id="email"
-                                            placeholder="Email Address">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="po_date">Purchase Order Date</label>
+                                    <div class="form-control-wrap">
+                                        <div class="form-icon form-icon-left">
+                                            <em class="icon ni ni-calendar"></em>
+                                        </div>
+                                        <input type="text" class="form-control date-picker" name="po_date" id="po_date"
+                                            data-date-format="yyyy-mm-dd" placeholder="YYYY-MM-DD" disabled>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="phone-no">Phone Number</label>
-                                        <input type="text" class="form-control" id="phone-no"
-                                            placeholder="Phone Number">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="lead-address">Address</label>
-                                        <input type="text" class="form-control" id="lead-address"
-                                            placeholder="Address">
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
-                                        <li>
-                                            <a href="#" data-bs-dismiss="modal" class="btn btn-primary">Add
-                                                Lead</a>
-                                        </li>
-                                    </ul>
                                 </div>
                             </div>
-                        </div><!-- .tab-pane -->
-                    </div><!-- .tab-content -->
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="supplier">Supplier</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control" name="supplier" id="supplier"
+                                            placeholder="" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="invoice_no">Invoice No.</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control @error('invoice_no') is-invalid @enderror" name="invoice_no"
+                                            id="invoice_no" required placeholder="e.g. YYYY-MM-sequence">
+                                    </div>
+                                    @error('invoice_no')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="invoice_date">Invoice Date</label>
+                                    <div class="form-control-wrap">
+                                        <div class="form-icon form-icon-left">
+                                            <em class="icon ni ni-calendar"></em>
+                                        </div>
+                                        <input type="text" class="form-control date-picker" name="invoice_date" id="invoice_date"
+                                            data-date-format="yyyy-mm-dd" placeholder="YYYY-MM-DD">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="office_id">Requisitioning Office/Department</label>
+                                    <div class="form-control-wrap">
+                                        <select class="form-select js-select2" name="office_id" id="office_id">
+                                            @foreach ($offices as $office)
+                                                <option value="{{ $office->id }}">{{ $office->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <button type="submit" id="btnAddPO" class="btn btn-primary">Add
+                                        AIR</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div><!-- .modal-body -->
             </div><!-- .modal-content -->
         </div><!-- .modal-dialog -->

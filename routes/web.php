@@ -8,6 +8,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\PurchaseOrderController;
+use App\Http\Controllers\AcceptanceInspectionReportController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,17 +45,16 @@ Route::get('/air-stock-inventory', [InventoryController::class, 'stockAir'])  //
     ->middleware(['auth', 'verified'])->name('air-stock-inventory');
 
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/purchase-order', [PurchaseOrderController::class, 'index'])->name('purchase-order.index');
     Route::post('/purchase-order', [PurchaseOrderController::class, 'store'])->name('purchase-order.store');
     Route::patch('/purchase-order', [PurchaseOrderController::class, 'update'])->name('purchase-order.update');
     Route::delete('/purchase-order', [PurchaseOrderController::class, 'destroy'])->name('purchase-order.destroy');
+
+    Route::get('/acceptance-inspection-report', [AcceptanceInspectionReportController::class, 'index'])->name('acceptance-inspection-report.index');
+    Route::post('/acceptance-inspection-report', [AcceptanceInspectionReportController::class, 'store'])->name('acceptance-inspection-report.store');
 });
 
-
-Route::get('/acceptance-inspection-report', function () {
-    return view('dashlite01/acceptance-inspection-report/index');
-})->middleware(['auth', 'verified'])->name('acceptance-inspection-report');
 
 
 Route::get('/requisition-issue-slip', function () {
