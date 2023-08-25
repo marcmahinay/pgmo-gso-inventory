@@ -38,16 +38,55 @@
                 // If all fields are filled, submit the form
                 $("#frmAddPO").submit();
             });
+
+            $("a.createAIR").on("click", function(event) {
+                event.preventDefault(); // Prevent default link behavior
+
+                var dataId = $(this).data("id");
+                
+                // Find the closest nk-tb-item element to the clicked link
+                var nkTbItem = $(this).closest(".nk-tb-item");
+                
+                // Find the third nk-tb-col within the nk-tb-item
+                var po_no = nkTbItem.find(".nk-tb-col:eq(0)");
+                var po_date = nkTbItem.find(".nk-tb-col:eq(1)");
+                var supplier = nkTbItem.find(".nk-tb-col:eq(2)");
+                
+                // Extract the text content from the third nk-tb-col
+                var po_no_text = po_no.find("span").text();
+                var po_date_text = po_date.find("span").text();
+                var supplier_text = supplier.find("span").text();
+
+                $("#po_id").val(dataId);
+                $("#po_no").val(po_no_text);
+                $("#po_date").val(po_date_text);
+                $("#supplier").val(supplier_text);
+                
+
+                // Populate the input field with the extracted text
+                //$("#yourInputFieldId").val(extractedText);
+                alert(po_no_text);
+            });
+
+            $(".nk-tb-col").on("click", function() {
+                var clickedRow = $(this).closest(".nk-tb-item");
+                alert('click');
+                // Check if the sub-row is already added
+                if (!clickedRow.hasClass("sub-row-added")) {
+                    var subRow = $("<div class='sub-row'>Sub Row Content</div>");   
+                    clickedRow.addClass("sub-row-added").after(subRow);
+                }
+            });
         });
     </script>
 @endsection
 
 @section('content')
-            
+
 
     <div class="nk-content ">
         <div class="container-fluid">
-            @include('dashlite01.layout.alerts') 
+            @include('dashlite01.layout.alerts')
             <div class="nk-content-inner">
                 <div class="nk-content-body">
                     <div class="nk-block-head nk-block-head-sm">
@@ -281,24 +320,24 @@
                                                 </div>
                                             </div>
                                         </div><!-- .nk-tb-item -->
-                                        @forelse ($pos as $po)
-                                            <div class="nk-tb-item">
+                                        @forelse ($pos as $index => $po)
+                                            <div class="nk-tb-item" id="po-{{$po->id}}">
                                                 <div class="nk-tb-col">
                                                     <span class="tb-lead">{{ $po->no }}</span>
                                                 </div>
 
                                                 @php
                                                     $poDate = $po->date; // Assuming $po->date contains the date in a valid format (e.g., "YYYY-MM-DD")
-                                                    
+
                                                     // Convert the $poDate string to a Carbon instance
                                                     $poCarbon = Carbon\Carbon::parse($poDate);
-                                                    
+
                                                     // Get the current date as a Carbon instance
                                                     $currentDate = Carbon\Carbon::now();
-                                                    
+
                                                     // Calculate the interval between the two dates
                                                     $interval = $currentDate->diff($poCarbon);
-                                                    
+
                                                     $elapsedHuman = $currentDate->diffForHumans($poCarbon);
                                                     $elapsedHuman = str_replace('after', 'elapsed', $elapsedHuman);
                                                     // Get the elapsed days and months
@@ -328,10 +367,9 @@
                                                 <div class="nk-tb-col nk-tb-col-tools">
                                                     <ul class="nk-tb-actions gx-2">
                                                         <li class="nk-tb-action-hidden">
-                                                            <a href="#" class="btn btn-sm btn-icon btn-trigger"
-                                                                data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                title="Send Email">
-                                                                <em class="icon ni ni-mail-fill"></em>
+                                                            <a href="#modalAddAIR" data-bs-toggle="modal" class="btn btn-lg btn-icon btn-trigger createAIR"
+                                                                title="Create AIR" data-id="{{$po->id}}">
+                                                                <em class="icon ni ni-files"></em>
                                                             </a>
                                                         </li>
                                                         <li>
@@ -457,6 +495,100 @@
                 </div>
             </div>
         </div>
+    </div><!-- .modal -->
+    <!-- @@ AIR Add Modal @e -->
+    <div class="modal fade" role="dialog" id="modalAddAIR">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
+                <div class="modal-body modal-body-md">
+                    <h5 class="title">Add Acceptance and Inspection Report</h5>
+                    <form action="{{ route('purchase-order.store') }}" id="frmAddPO" method="POST"
+                        class="mt-2">
+                        @method('POST')
+                        @csrf
+                        <input type="hidden" value="" id="po_id">
+                        <div class="row g-gs">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="po_no">Purchase Order No.</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control @error('po_no') is-invalid @enderror" name="po_no"
+                                            id="po_no" disabled required placeholder="e.g. YYYY-MM-sequence">
+                                    </div>
+                                    @error('po_no')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="po_date">Purchase Order Date</label>
+                                    <div class="form-control-wrap">
+                                        <div class="form-icon form-icon-left">
+                                            <em class="icon ni ni-calendar"></em>
+                                        </div>
+                                        <input type="text" class="form-control date-picker" name="po_date" id="po_date"
+                                            data-date-format="yyyy-mm-dd" placeholder="YYYY-MM-DD" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="supplier">Supplier</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control" name="supplier" id="supplier"
+                                            placeholder="" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="invoice_no">Invoice No.</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control @error('invoice_no') is-invalid @enderror" name="invoice_no"
+                                            id="invoice_no" required placeholder="">
+                                    </div>
+                                    @error('invoice_no')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="invoice_date">Invoice Date</label>
+                                    <div class="form-control-wrap">
+                                        <div class="form-icon form-icon-left">
+                                            <em class="icon ni ni-calendar"></em>
+                                        </div>
+                                        <input type="text" class="form-control date-picker" name="invoice_date" id="invoice_date" required
+                                            data-date-format="yyyy-mm-dd" placeholder="YYYY-MM-DD">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="office_id">Requisitioning Office/Department</label>
+                                    <div class="form-control-wrap">
+                                        <select class="form-select js-select2" name="office_id" id="office_id">
+                                            @foreach ($offices as $office)
+                                                <option value="{{ $office->id }}">{{ $office->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <button type="submit" id="btnAddPO" class="btn btn-primary">Add
+                                        AIR</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div><!-- .modal-body -->
+            </div><!-- .modal-content -->
+        </div><!-- .modal-dialog -->
     </div><!-- .modal -->
     <!-- @@ Lead Edit Modal @e -->
     <div class="modal fade" role="dialog" id="editLead" tabindex="-1">

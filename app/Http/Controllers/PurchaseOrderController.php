@@ -8,15 +8,16 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Supplier;
 use App\Models\PurchaseOrder;
 use App\Models\Log;
-
+use App\Models\Office;
 
 class PurchaseOrderController extends Controller
 {
     public function index() {
         $pos = PurchaseOrder::orderBy('date','desc')->paginate(50);
         $suppliers = Supplier::orderBy('name','asc')->get();
-        
-        $data = compact(['pos','suppliers']);
+        $offices = Office::orderBy('name','asc')->get();
+
+        $data = compact(['pos','suppliers','offices']);
 
         return view('dashlite01.purchase-order.index', $data);
     }
@@ -27,7 +28,7 @@ class PurchaseOrderController extends Controller
             'date' => 'required|date',
             'description' => 'required|max:255',
             'supplier_id' => 'required|integer'
-        ]);     
+        ]);
 
         try {
             DB::transaction(function () use ($request) {
