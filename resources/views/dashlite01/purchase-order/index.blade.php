@@ -75,7 +75,7 @@
                 if (!clickedRow.hasClass("sub-row-added")) {
                     var subRow = $("<div class='sub-row'>Sub Row Content</div>");   
                     clickedRow.addClass("sub-row-added").after(subRow);
-                }
+                } 
             });
         });
     </script>
